@@ -15,7 +15,12 @@ function App() {
       <Header></Header>
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
-        <Route path='/product' element={<Reviews></Reviews>}></Route>
+        <Route path='/product' element={
+          <RequireAuth>
+            <Reviews></Reviews>
+          </RequireAuth>
+        }
+        ></Route>
         <Route path='/order' element={
           <RequireAuth>
             <Order></Order>
