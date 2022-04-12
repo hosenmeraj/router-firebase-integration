@@ -1,79 +1,24 @@
-import './App.css';
-import app from './firebase-init';
-import { FacebookAuthProvider, FactorId, getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
-import { useState } from 'react';
 
-const auth = getAuth(app)
+import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import Home from './components/Home/Home';
+import Header from './components/Header/Header';
+import Order from './components/Order/Order';
+import Reviews from './components/Reviews/Reviews';
+import Register from './components/Register/Register';
+import Login from './components/Login/Login';
 
 function App() {
-  const [user, setUser] = useState({})
-  const googleProvider = new GoogleAuthProvider()
-  const gitHubProvider = new GithubAuthProvider()
-  const facebookProvider = new FacebookAuthProvider()
-
-  //for google authenticator
-  //sign in
-  const handleGoogleSign = () => {
-    signInWithPopup(auth, googleProvider)
-      .then(result => {
-        const user = result.user;
-        setUser(user)
-        console.log(user);
-      })
-      .catch(error => {
-        console.log('error', error);
-      })
-  }
-  // sign out
-  const handleGoogleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        setUser({})
-      })
-      .catch(error => {
-        console.log('error', error);
-      })
-  }
-
-  const handleGitHubSignIn = () => {
-    signInWithPopup(auth, gitHubProvider)
-      .then(result => {
-        const user = result.user;
-        setUser(user)
-        console.log(user);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
-  const handleFacebookSignIn = () => {
-    signInWithPopup(auth, facebookProvider)
-      .then(result => {
-        const user = result.user
-        setUser(user)
-        console.log(user);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-  }
-
-
   return (
     <div className="App">
-      {
-        user.uid ? <button onClick={handleGoogleSignOut}>sign Out</button>
-          :
-          <>
-            <button onClick={handleGoogleSign}>google signIn</button>
-            <button onClick={handleFacebookSignIn}>facebook signIn</button>
-            <button onClick={handleGitHubSignIn}>Github SignIn</button>
-          </>
-      }
-      <h2>Name: {user.displayName}</h2>
-      <p>Email: {user.email}</p>
-      <img src={user.photoURL} alt="" />
+      <Header></Header>
+      <Routes>
+        <Route path='/' element={<Home></Home>}></Route>
+        <Route path='/product' element={<Reviews></Reviews>}></Route>
+        <Route path='/order' element={<Order></Order>}></Route>
+        <Route path='/register' element={<Register></Register>}></Route>
+        <Route path='/login' element={<Login></Login>}></Route>
+      </Routes>
     </div>
   );
 }
